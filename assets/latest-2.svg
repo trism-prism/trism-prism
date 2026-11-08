@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="400" height="58" viewBox="0 0 400 58" role="img" aria-label="tripwire-awareness-dashboard">
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="58" viewBox="0 0 400 58" role="img" aria-label="portfolio-site">
 <defs><linearGradient id="stone" x2="0" y2="1"><stop stop-color="#263445"/><stop offset="1" stop-color="#191f32"/></linearGradient><linearGradient id="prism" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#66dedb"/><stop offset=".52" stop-color="#b49ae9"/><stop offset="1" stop-color="#f1c580"/></linearGradient></defs>
 <path fill="url(#stone)" stroke="#78849e" d="M10 .5h380l9.5 9.5v38L390 57.5H10L.5 48V10z"/>
 <path fill="none" stroke="#43536c" d="M12 4.5h376l7.5 7.5v34l-7.5 7.5H12L4.5 46V12z"/>
 <path fill="none" stroke="url(#prism)" d="M12 4.5h65M323 53.5h65"/>
 <path fill="url(#prism)" stroke="#e2dbf3" stroke-width=".7" d="m24 17 9 12-9 12-9-12z"/><path fill="#eeedff" fill-opacity=".45" d="m24 17 0 24-9-12z"/><path fill="none" stroke="#f4f1ff" stroke-opacity=".7" stroke-width=".7" d="m15 29 9-3 9 3-9 3z"/>
 <path fill="none" stroke="#8b87af" d="M366 29h12m-12 0 6-8"/><path fill="#72d8d9" d="m364 26 3 3-3 3-3-3z"/><path fill="#b8a3e8" d="m379 26 3 3-3 3-3-3z"/><path fill="#e9be81" d="m373 18 3 3-3 3-3-3z"/>
-<text x="50%" y="50%" dy=".35em" text-anchor="middle" font-family="Georgia,serif" font-size="17" letter-spacing=".6" fill="#f0e8d6">tripwire-awareness-dashboard</text>
+<text x="50%" y="50%" dy=".35em" text-anchor="middle" font-family="Georgia,serif" font-size="17" letter-spacing=".6" fill="#f0e8d6">portfolio-site</text>
 </svg>
