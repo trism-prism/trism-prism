@@ -13,11 +13,11 @@
 ## Latest projects
 
 <!-- latest:start -->
-<h3><a href="https://github.com/trism-prism/anime-rating-platform"><img src="assets/latest-1.svg" width="330" alt="anime-rating-platform"></a></h3>
+<h3><a href="https://github.com/trism-prism/kiln"><img src="assets/latest-1.svg" width="330" alt="kiln"></a></h3>
 
-<h3><a href="https://github.com/trism-prism/portfolio-site"><img src="assets/latest-2.svg" width="330" alt="portfolio-site"></a></h3>
+<h3><a href="https://github.com/trism-prism/anime-rating-platform"><img src="assets/latest-2.svg" width="330" alt="anime-rating-platform"></a></h3>
 
-<h3><a href="https://github.com/trism-prism/tripwire-awareness-dashboard"><img src="assets/latest-3.svg" width="330" alt="tripwire-awareness-dashboard"></a></h3>
+<h3><a href="https://github.com/trism-prism/docs-qa-copilot"><img src="assets/latest-3.svg" width="330" alt="docs-qa-copilot"></a></h3>
 <!-- latest:end -->
 
 ## Featured projects
