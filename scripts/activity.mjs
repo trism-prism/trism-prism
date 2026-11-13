@@ -65,10 +65,10 @@ export function activityAlt(counts) {
 }
 
 // Four-axis radar (commits up, pull requests right, issues down, code review left) plus a legend, in the same stone/prism style as the plaques.
-export function renderActivity(counts, width = 880, height = 300) {
+export function renderActivity(counts, width = 880, height = 236) {
   const pct = shares(counts);
   const max = Math.max(1, ...kinds.map(k => counts[k.key]));
-  const cx = 222, cy = 150, R = 96;
+  const cx = 222, cy = 118, R = 76;
   const axis = [[0, -1], [1, 0], [0, 1], [-1, 0]];
   const point = (i, f) => `${(cx + axis[i][0] * R * f).toFixed(1)} ${(cy + axis[i][1] * R * f).toFixed(1)}`;
   const grid = [0.25, 0.5, 0.75, 1].map(f => `<path fill="none" stroke="#43536c" stroke-width="${f === 1 ? 1.2 : 0.8}" d="M${point(0, f)}L${point(1, f)}L${point(2, f)}L${point(3, f)}z"/>`).join('');
@@ -83,7 +83,7 @@ export function renderActivity(counts, width = 880, height = 300) {
     `<text x="${cx - R - 12}" y="${cy + 5}" text-anchor="end">${kinds[3].label}</text>`,
   ].join('');
   const rows = kinds.map((k, i) => {
-    const y = 92 + i * 44;
+    const y = 84 + i * 36;
     const bar = Math.round((counts[k.key] / max) * 250);
     return `<path fill="${k.color}" stroke="#e2dbf3" stroke-width=".6" d="m528 ${y - 12} 8 8-8 8-8-8z"/>
 <text x="548" y="${y - 2}" font-size="17" fill="#f0e8d6">${k.label}</text>
@@ -97,8 +97,8 @@ export function renderActivity(counts, width = 880, height = 300) {
 <path fill="url(#stone)" stroke="#78849e" d="M12 .5h${width - 24}l11.5 12v${height - 25}L${width - 12} ${height - 0.5}H12L.5 ${height - 12.5}v${-(height - 25)}z"/>
 <path fill="none" stroke="#43536c" d="M15 5.5h${width - 30}l9.5 10v${height - 31}l-9.5 10H15l-9.5-10v${-(height - 31)}z"/>
 <path fill="none" stroke="url(#prism)" d="M15 5.5h80M${width - 95} ${height - 5.5}h80"/>
-<text x="548" y="42" font-size="12" letter-spacing="1.4" fill="#9aa7bd">LAST 12 MONTHS</text>
-<text x="548" y="62" font-size="19" fill="#f0e8d6">Contribution mix</text>
+<text x="548" y="36" font-size="12" letter-spacing="1.4" fill="#9aa7bd">LAST 12 MONTHS</text>
+<text x="548" y="56" font-size="19" fill="#f0e8d6">Contribution mix</text>
 ${grid}${spokes}
 <path fill="url(#prism)" fill-opacity=".5" stroke="#e2dbf3" stroke-width="1.2" d="${shape}"/>${dots}
 <g font-size="14" fill="#c9d1e3">${labels}</g>

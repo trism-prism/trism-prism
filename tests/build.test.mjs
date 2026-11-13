@@ -25,7 +25,9 @@ test('native README keeps readable content and supported motion fallback', () =>
 test('navigation uses portfolio/repositories and every featured project has a plaque', () => {
   const output = renderReadme();
   assert(output.includes('href="https://portfolio-site-trism2.vercel.app"'));
-  assert(output.includes('alt="Portfolio Website"'));
+  assert(output.includes('alt="Portfolio"'));
+  assert(output.includes('href="https://www.linkedin.com/in/tristan-morton"'));
+  assert(output.includes('alt="Discord"'));
   assert(output.includes('alt="Repositories"'));
   for (const project of featured) {
     assert(output.includes(`assets/featured-${project.repo}.svg`));
@@ -46,7 +48,7 @@ test('shared prism plaques retain accessible names, safe labels and fixed geomet
 
 test('navigation fills its row, latest projects share a row, featured projects are table rows with tags', () => {
   const output = renderReadme();
-  assert.equal((output.match(/width="50%"/g) || []).length, 2);
+  assert.equal((output.match(/width="25%"/g) || []).length, 4);
   assert(!output.includes('</a>\n  <a'));
   assert(!output.includes('<summary>'));
   for (const project of featured) {
