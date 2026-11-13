@@ -51,7 +51,7 @@ test('navigation fills its row, latest projects share a row, featured projects a
   assert(!output.includes('<summary>'));
   for (const project of featured) {
     assert(output.includes(`<a href="https://github.com/trism-prism/${project.repo}"><img src="assets/featured-${project.repo}.svg" width="100%"`));
-    for (const tag of project.stack.split(' · ')) assert(output.includes(`<code>${tag}</code>`));
+    for (const tag of project.stack.split(' · ')) assert(output.includes(`<code>${tag.replaceAll(' ', '&nbsp;')}</code>`));
   }
 });
 

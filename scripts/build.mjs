@@ -23,7 +23,7 @@ export function plaque(label, width = 400) {
 </svg>\n`;
 }
 
-const tags = stack => stack.split(' · ').map(t => `<code>${escapeHtml(t)}</code>`).join(' ');
+const tags = stack => stack.split(' · ').map(t => `<code>${escapeHtml(t).replaceAll(' ', '&nbsp;')}</code>`).join(' ');
 
 export function renderReadme(latest = '<p>Latest public projects will appear here after the first successful refresh.</p>', activity = '<p>Contribution mix will appear here after the first successful refresh.</p>') {
   return `<!-- Built by scripts/build.mjs. Edit the generator, then rebuild. -->

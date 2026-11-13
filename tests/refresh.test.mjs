@@ -78,6 +78,23 @@ test('failed, malformed or repeated pages reject an incomplete scan', async () =
   await assert.rejects(fetchPublicRepos(async () => response([repo(1)], '<next>; rel="next"')), /repeated/);
 });
 
+test('a failed contribution query keeps the chart and still refreshes projects', async () => {
+  const directory = mkdtempSync(join(tmpdir(), 'profile-test-'));
+  writeFileSync(directory + '/README.md', renderReadme());
+  const before = readFileSync(directory + '/README.md', 'utf8');
+  const fetcher = async url => String(url).includes('graphql') ? new Response('', { status: 502 }) : response([repo(1)]);
+  const previous = process.env.GITHUB_TOKEN;
+  process.env.GITHUB_TOKEN = 't';
+  try {
+    assert.equal(await refresh({ directory, fetcher }), true);
+  } finally {
+    if (previous === undefined) delete process.env.GITHUB_TOKEN; else process.env.GITHUB_TOKEN = previous;
+  }
+  const after = readFileSync(directory + '/README.md', 'utf8');
+  assert(after.includes('project-1'));
+  assert.equal(activitySection(after), activitySection(before));
+});
+
 test('refresh is stable, follows new pushes and preserves README/plaques on failure', async () => {
   const directory = mkdtempSync(join(tmpdir(), 'profile-test-'));
   writeFileSync(directory + '/README.md', renderReadme());

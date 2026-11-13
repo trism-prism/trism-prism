@@ -58,14 +58,18 @@ export async function refresh({ directory = root, fetcher = fetch, counts } = {}
   const beforeActivity = activitySection(readme);
   const repos = await fetchPublicRepos(fetcher);
   const latest = selectLatest(repos);
-  const activity = counts ?? await fetchActivity({ fetcher });
+  // The contribution chart is a bonus: if its query fails, keep the last chart and still refresh the projects.
+  let activity = counts;
+  if (!activity) {
+    try { activity = await fetchActivity({ fetcher }); } catch (error) { console.warn(`Contribution chart not refreshed: ${error.message}`); }
+  }
   const output = readme
     .replace(`<!-- latest:start -->\n${before}\n<!-- latest:end -->`, `<!-- latest:start -->\n${renderLatest(latest)}\n<!-- latest:end -->`)
-    .replace(`<!-- activity:start -->\n${beforeActivity}\n<!-- activity:end -->`, `<!-- activity:start -->\n${renderActivitySection(activity)}\n<!-- activity:end -->`);
+    .replace(`<!-- activity:start -->\n${beforeActivity}\n<!-- activity:end -->`, `<!-- activity:start -->\n${activity ? renderActivitySection(activity) : beforeActivity}\n<!-- activity:end -->`);
   const changes = [];
   // Finish the complete scan and validation before touching either tracked file.
   const plaques = Array.from({ length: 3 }, (_, i) => [directory + `/assets/latest-${i + 1}.svg`, plaque(latest[i]?.name ?? '', 330)]);
-  for (const [path, content] of [[readmePath, output], [directory + '/assets/activity.svg', renderActivity(activity)], ...plaques]) {
+  for (const [path, content] of [[readmePath, output], ...(activity ? [[directory + '/assets/activity.svg', renderActivity(activity)]] : []), ...plaques]) {
     if (existsSync(path) && readFileSync(path, 'utf8').replaceAll('\r\n', '\n') === content) continue;
     mkdirSync(directory + '/assets', { recursive: true });
     writeFileSync(path + '.tmp', content);
