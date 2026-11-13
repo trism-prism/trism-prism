@@ -48,7 +48,7 @@ ${latest}
 
 <table>
 ${featured.map(p => `<tr>
-<td width="300" valign="top"><a href="https://github.com/trism-prism/${p.repo}"><img src="assets/featured-${p.repo}.svg" width="100%" alt="${p.name}"></a></td>
+<td width="38%" valign="top"><a href="https://github.com/trism-prism/${p.repo}"><img src="assets/featured-${p.repo}.svg" width="100%" alt="${p.name}"></a></td>
 <td valign="top">${tags(p.stack)}<br><br>${escapeHtml(p.text)}<br><br><a href="https://github.com/trism-prism/${p.repo}">View repository →</a></td>
 </tr>`).join('\n')}
 </table>
