@@ -20,16 +20,16 @@
 
 <table>
 <tr>
-<td width="38%" valign="top"><a href="https://github.com/trism-prism/internship-scout-agent"><img src="assets/featured-internship-scout-agent.svg" width="100%" alt="Internship Scout"></a></td>
-<td valign="top"><code>Python</code> <code>FastAPI</code> <code>PostgreSQL</code> <code>Claude tool calling</code> <code>GitHub Actions</code><br><br>A resume-matching agent with a FastAPI web app. A scheduled Python job gathers internship postings, uses tool calling to retrieve details and explain matches, and sends an email digest. PostgreSQL stores the postings and results so the app can show them later.<br><br><a href="https://github.com/trism-prism/internship-scout-agent">View repository →</a></td>
+<td width="38%" valign="top"><a href="https://github.com/trism-prism/internship-scout-agent"><img src="assets/featured-internship-scout-agent.svg" width="100%" alt="Internship Scout"></a><br><code>Python</code> <code>FastAPI</code> <code>PostgreSQL</code> <code>Claude tool calling</code> <code>GitHub Actions</code></td>
+<td valign="top">A resume-matching agent with a FastAPI web app. A scheduled Python job gathers internship postings, uses tool calling to retrieve details and explain matches, and sends an email digest. PostgreSQL stores the postings and results so the app can show them later.<br><br><a href="https://github.com/trism-prism/internship-scout-agent">View repository →</a></td>
 </tr>
 <tr>
-<td width="38%" valign="top"><a href="https://github.com/trism-prism/tripwire-awareness-dashboard"><img src="assets/featured-tripwire-awareness-dashboard.svg" width="100%" alt="Tripwire"></a></td>
-<td valign="top"><code>Python</code> <code>Streamlit</code> <code>PostgreSQL</code> <code>Docker</code> <code>GDELT</code><br><br>A situational awareness dashboard backed by a Dockerized ingestion worker. It reads the GDELT event feed, stores geolocated conflict and unrest reports in PostgreSQL, and detects unusual changes in activity by country. A Streamlit interface makes the events easier to explore on a map.<br><br><a href="https://github.com/trism-prism/tripwire-awareness-dashboard">View repository →</a></td>
+<td width="38%" valign="top"><a href="https://github.com/trism-prism/tripwire-awareness-dashboard"><img src="assets/featured-tripwire-awareness-dashboard.svg" width="100%" alt="Tripwire"></a><br><code>Python</code> <code>Streamlit</code> <code>PostgreSQL</code> <code>Docker</code> <code>GDELT</code></td>
+<td valign="top">A situational awareness dashboard backed by a Dockerized ingestion worker. It reads the GDELT event feed, stores geolocated conflict and unrest reports in PostgreSQL, and detects unusual changes in activity by country. A Streamlit interface makes the events easier to explore on a map.<br><br><a href="https://github.com/trism-prism/tripwire-awareness-dashboard">View repository →</a></td>
 </tr>
 <tr>
-<td width="38%" valign="top"><a href="https://github.com/trism-prism/docs-qa-copilot"><img src="assets/featured-docs-qa-copilot.svg" width="100%" alt="Docs QA Copilot"></a></td>
-<td valign="top"><code>TypeScript</code> <code>Next.js</code> <code>React</code> <code>PostgreSQL / pgvector</code> <code>Local embeddings</code> <code>Claude</code><br><br>A retrieval-augmented generation (RAG) application for asking questions about PDFs. Local embeddings and pgvector find relevant passages, and the app generates answers with page-level citations. An evaluation view shows how it handles test questions and where it falls short.<br><br><a href="https://github.com/trism-prism/docs-qa-copilot">View repository →</a></td>
+<td width="38%" valign="top"><a href="https://github.com/trism-prism/docs-qa-copilot"><img src="assets/featured-docs-qa-copilot.svg" width="100%" alt="Docs QA Copilot"></a><br><code>TypeScript</code> <code>Next.js</code> <code>React</code> <code>PostgreSQL / pgvector</code> <code>Local embeddings</code> <code>Claude</code></td>
+<td valign="top">A retrieval-augmented generation (RAG) application for asking questions about PDFs. Local embeddings and pgvector find relevant passages, and the app generates answers with page-level citations. An evaluation view shows how it handles test questions and where it falls short.<br><br><a href="https://github.com/trism-prism/docs-qa-copilot">View repository →</a></td>
 </tr>
 </table>
 
