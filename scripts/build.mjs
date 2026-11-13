@@ -23,7 +23,9 @@ export function plaque(label, width = 400) {
 </svg>\n`;
 }
 
-export function renderReadme(latest = '<p>Latest public projects will appear here after the first successful refresh.</p>') {
+const tags = stack => stack.split(' · ').map(t => `<code>${escapeHtml(t)}</code>`).join(' ');
+
+export function renderReadme(latest = '<p>Latest public projects will appear here after the first successful refresh.</p>', activity = '<p>Contribution mix will appear here after the first successful refresh.</p>') {
   return `<!-- Built by scripts/build.mjs. Edit the generator, then rebuild. -->
 <picture>
   <source media="(prefers-reduced-motion: reduce)" srcset="assets/scene.png">
@@ -44,20 +46,25 @@ ${latest}
 
 ## Featured projects
 
-${featured.map((p, i) => `<h3><a href="https://github.com/trism-prism/${p.repo}"><img src="assets/featured-${p.repo}.svg" width="330" alt="${p.name}"></a></h3>
-<details${i === 0 ? ' open' : ''}>
-<summary>Project details</summary>
+<table>
+${featured.map(p => `<tr>
+<td width="300" valign="top"><a href="https://github.com/trism-prism/${p.repo}"><img src="assets/featured-${p.repo}.svg" width="100%" alt="${p.name}"></a></td>
+<td valign="top">${tags(p.stack)}<br><br>${escapeHtml(p.text)}<br><br><a href="https://github.com/trism-prism/${p.repo}">View repository →</a></td>
+</tr>`).join('\n')}
+</table>
 
-**${p.stack}**
+## Activity
 
-${p.text}
-
-[View repository →](https://github.com/trism-prism/${p.repo})
-
-</details>`).join('\n\n')}
-
-<!-- Optional personal text — Tristan may write this or remove it. -->
+<!-- activity:start -->
+${activity}
+<!-- activity:end -->
 `;
+}
+
+export function activitySection(readme) {
+  const match = readme.match(/<!-- activity:start -->\n([\s\S]*?)\n<!-- activity:end -->/);
+  if (!match || (readme.match(/<!-- activity:start -->/g) || []).length !== 1 || (readme.match(/<!-- activity:end -->/g) || []).length !== 1) throw new Error('Expected exactly one Activity section');
+  return match[1];
 }
 
 export function latestSection(readme) {
@@ -66,12 +73,15 @@ export function latestSection(readme) {
   return match[1];
 }
 
-export function build(latest = existsSync(root + 'README.md') ? latestSection(readFileSync(root + 'README.md', 'utf8').replaceAll('\r\n', '\n')) : undefined) {
+export function build(latest, activity) {
+  const current = existsSync(root + 'README.md') ? readFileSync(root + 'README.md', 'utf8').replaceAll('\r\n', '\n') : undefined;
+  if (current && /<!-- latest:start -->/.test(current)) latest ??= latestSection(current);
+  if (current && /<!-- activity:start -->/.test(current)) activity ??= activitySection(current);
   mkdirSync(root + 'assets', { recursive: true });
   writeFileSync(root + 'assets/profile.svg', plaque('Portfolio Website'));
   writeFileSync(root + 'assets/projects.svg', plaque('Repositories'));
   for (const project of featured) writeFileSync(root + `assets/featured-${project.repo}.svg`, plaque(project.name));
-  writeFileSync(root + 'README.md', renderReadme(latest));
+  writeFileSync(root + 'README.md', renderReadme(latest, activity));
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
