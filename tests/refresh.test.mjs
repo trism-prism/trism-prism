@@ -4,7 +4,9 @@ import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { selectLatest, fetchPublicRepos, refresh, renderLatest } from '../scripts/refresh.mjs';
-import { renderReadme, latestSection } from '../scripts/build.mjs';
+import { renderReadme, latestSection, activitySection } from '../scripts/build.mjs';
+
+const counts = { commits: 10, pullRequests: 5, issues: 1, reviews: 0 };
 
 const repo = (id, overrides = {}) => ({ id, name: `project-${id}`, html_url: `https://github.com/trism-prism/project-${id}`, owner: { login: 'trism-prism' }, private: false, visibility: 'public', fork: false, archived: false, created_at: '2025-01-01T00:00:00Z', pushed_at: '2025-01-01T00:00:00Z', description: 'A public project.', language: 'JavaScript', ...overrides });
 const response = (repos, link = '') => new Response(JSON.stringify(repos), { headers: { link } });
@@ -40,7 +42,7 @@ test('descriptions and language are omitted entirely', () => {
   assert(!text.includes('<script>'));
   assert(!text.includes('<b>JS'));
   assert(!text.includes('&lt;script&gt;'));
-  assert(!text.includes('<p>'));
+  assert(text.startsWith('<p>') && text.endsWith('</p>') && (text.match(/<p>/g) || []).length === 1);
   assert(!text.includes('<strong>'));
   assert(!text.includes('a'.repeat(300)));
   assert(!renderLatest([repo(2, { description: null, language: null })]).includes('undefined'));
@@ -76,10 +78,27 @@ test('failed, malformed or repeated pages reject an incomplete scan', async () =
   await assert.rejects(fetchPublicRepos(async () => response([repo(1)], '<next>; rel="next"')), /repeated/);
 });
 
+test('a failed contribution query keeps the chart and still refreshes projects', async () => {
+  const directory = mkdtempSync(join(tmpdir(), 'profile-test-'));
+  writeFileSync(directory + '/README.md', renderReadme());
+  const before = readFileSync(directory + '/README.md', 'utf8');
+  const fetcher = async url => String(url).includes('graphql') ? new Response('', { status: 502 }) : response([repo(1)]);
+  const previous = process.env.GITHUB_TOKEN;
+  process.env.GITHUB_TOKEN = 't';
+  try {
+    assert.equal(await refresh({ directory, fetcher }), true);
+  } finally {
+    if (previous === undefined) delete process.env.GITHUB_TOKEN; else process.env.GITHUB_TOKEN = previous;
+  }
+  const after = readFileSync(directory + '/README.md', 'utf8');
+  assert(after.includes('project-1'));
+  assert.equal(activitySection(after), activitySection(before));
+});
+
 test('refresh is stable, follows new pushes and preserves README/plaques on failure', async () => {
   const directory = mkdtempSync(join(tmpdir(), 'profile-test-'));
   writeFileSync(directory + '/README.md', renderReadme());
-  const options = { directory, fetcher: async () => response([repo(1)]) };
+  const options = { directory, counts, fetcher: async () => response([repo(1)]) };
   assert.equal(await refresh(options), true);
   const readme = readFileSync(directory + '/README.md', 'utf8');
   const plaque = readFileSync(directory + '/assets/latest-1.svg', 'utf8');
@@ -89,7 +108,8 @@ test('refresh is stable, follows new pushes and preserves README/plaques on fail
   await assert.rejects(refresh({ ...options, fetcher: async () => ++page === 1 ? response(Array.from({ length: 100 }, (_, i) => repo(i))) : new Response('', { status: 503 }) }), /HTTP 503/);
   assert.equal(readFileSync(directory + '/README.md', 'utf8'), readme);
   assert.equal(readFileSync(directory + '/assets/latest-1.svg', 'utf8'), plaque);
-  assert.equal(readme, renderReadme(latestSection(readme)));
+  assert.equal(readme, renderReadme(latestSection(readme), activitySection(readme)));
+  assert(readFileSync(directory + '/assets/activity.svg', 'utf8').includes('Commits'));
   await refresh({ ...options, fetcher: async () => response([repo(1), repo(2, { pushed_at: '2026-11-03T12:00:00Z' })]) });
   assert(readFileSync(directory + '/assets/latest-1.svg', 'utf8').includes('project-2'));
   await refresh({ ...options, fetcher: async () => response([]) });

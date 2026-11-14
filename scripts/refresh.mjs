@@ -1,6 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
-import { escapeHtml, latestSection, plaque, root } from './build.mjs';
+import { activitySection, escapeHtml, latestSection, plaque, root } from './build.mjs';
+import { fetchActivity, renderActivity, renderActivitySection } from './activity.mjs';
 
 const owner = 'trism-prism';
 const excluded = new Set(['trism-prism', 'trism-dev', 'lore-tool-pages']);
@@ -46,20 +47,29 @@ export function selectLatest(repos) {
 
 export function renderLatest(repos) {
   if (!repos.length) return '<p>No public projects to show yet. <a href="https://github.com/trism-prism?tab=repositories">Browse repositories</a>.</p>';
-  return repos.map((repo, index) => `<h3><a href="${repo.html_url}"><img src="assets/latest-${index + 1}.svg" width="330" alt="${escapeHtml(repo.name)}"></a></h3>`).join('\n\n');
+  // Three buttons share one row (no whitespace between the links, so the widths add up).
+  return '<p>' + repos.map((repo, index) => `<a href="${repo.html_url}"><img src="assets/latest-${index + 1}.svg" width="${Math.floor(100 / 3)}%" alt="${escapeHtml(repo.name)}"></a>`).join('') + '</p>';
 }
 
-export async function refresh({ directory = root, fetcher = fetch } = {}) {
+export async function refresh({ directory = root, fetcher = fetch, counts } = {}) {
   const readmePath = directory + '/README.md';
   const readme = readFileSync(readmePath, 'utf8').replaceAll('\r\n', '\n');
   const before = latestSection(readme);
+  const beforeActivity = activitySection(readme);
   const repos = await fetchPublicRepos(fetcher);
   const latest = selectLatest(repos);
-  const output = readme.replace(`<!-- latest:start -->\n${before}\n<!-- latest:end -->`, `<!-- latest:start -->\n${renderLatest(latest)}\n<!-- latest:end -->`);
+  // The contribution chart is a bonus: if its query fails, keep the last chart and still refresh the projects.
+  let activity = counts;
+  if (!activity) {
+    try { activity = await fetchActivity({ fetcher }); } catch (error) { console.warn(`Contribution chart not refreshed: ${error.message}`); }
+  }
+  const output = readme
+    .replace(`<!-- latest:start -->\n${before}\n<!-- latest:end -->`, `<!-- latest:start -->\n${renderLatest(latest)}\n<!-- latest:end -->`)
+    .replace(`<!-- activity:start -->\n${beforeActivity}\n<!-- activity:end -->`, `<!-- activity:start -->\n${activity ? renderActivitySection(activity) : beforeActivity}\n<!-- activity:end -->`);
   const changes = [];
   // Finish the complete scan and validation before touching either tracked file.
-  const plaques = Array.from({ length: 3 }, (_, i) => [directory + `/assets/latest-${i + 1}.svg`, plaque(latest[i]?.name ?? '')]);
-  for (const [path, content] of [[readmePath, output], ...plaques]) {
+  const plaques = Array.from({ length: 3 }, (_, i) => [directory + `/assets/latest-${i + 1}.svg`, plaque(latest[i]?.name ?? '', 330)]);
+  for (const [path, content] of [[readmePath, output], ...(activity ? [[directory + '/assets/activity.svg', renderActivity(activity)]] : []), ...plaques]) {
     if (existsSync(path) && readFileSync(path, 'utf8').replaceAll('\r\n', '\n') === content) continue;
     mkdirSync(directory + '/assets', { recursive: true });
     writeFileSync(path + '.tmp', content);

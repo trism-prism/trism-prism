@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="236" viewBox="0 0 880 236" role="img" aria-label="Contribution mix over the last 12 months: 391 commits (72%), 139 pull requests (25%), 16 issues (3%), 0 code review (0%)." font-family="Georgia,serif" fill="#f0e8d6" font-size="15">
+<defs><linearGradient id="stone" x2="0" y2="1"><stop stop-color="#263445"/><stop offset="1" stop-color="#191f32"/></linearGradient><linearGradient id="prism" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#66dedb"/><stop offset=".52" stop-color="#b49ae9"/><stop offset="1" stop-color="#f1c580"/></linearGradient></defs>
+<path fill="url(#stone)" stroke="#78849e" d="M12 .5h856l11.5 12v211L868 235.5H12L.5 223.5v-211z"/>
+<path fill="none" stroke="#43536c" d="M15 5.5h850l9.5 10v205l-9.5 10H15l-9.5-10v-205z"/>
+<path fill="none" stroke="url(#prism)" d="M15 5.5h80M785 230.5h80"/>
+<text x="548" y="36" font-size="12" letter-spacing="1.4" fill="#9aa7bd">LAST 12 MONTHS</text>
+<text x="548" y="56" font-size="19" fill="#f0e8d6">Contribution mix</text>
+<path fill="none" stroke="#43536c" stroke-width="0.8" d="M222.0 99.0L241.0 118.0L222.0 137.0L203.0 118.0z"/><path fill="none" stroke="#43536c" stroke-width="0.8" d="M222.0 80.0L260.0 118.0L222.0 156.0L184.0 118.0z"/><path fill="none" stroke="#43536c" stroke-width="0.8" d="M222.0 61.0L279.0 118.0L222.0 175.0L165.0 118.0z"/><path fill="none" stroke="#43536c" stroke-width="1.2" d="M222.0 42.0L298.0 118.0L222.0 194.0L146.0 118.0z"/><path fill="none" stroke="#43536c" d="M222 42V194M146 118H298"/>
+<path fill="url(#prism)" fill-opacity=".5" stroke="#e2dbf3" stroke-width="1.2" d="M222.0 42.0L249.0 118.0L222.0 121.1L222.0 118.0z"/><path fill="#66dedb" stroke="#f4f1ff" stroke-width=".8" d="m222.0 37.0 5 5-5 5-5-5z"/><path fill="#b49ae9" stroke="#f4f1ff" stroke-width=".8" d="m249.0 113.0 5 5-5 5-5-5z"/><path fill="#f1c580" stroke="#f4f1ff" stroke-width=".8" d="m222.0 116.1 5 5-5 5-5-5z"/><path fill="#8b87af" stroke="#f4f1ff" stroke-width=".8" d="m222.0 113.0 5 5-5 5-5-5z"/>
+<g font-size="14" fill="#c9d1e3"><text x="222" y="28" text-anchor="middle">Commits</text><text x="310" y="123">Pull requests</text><text x="222" y="220" text-anchor="middle">Issues</text><text x="134" y="123" text-anchor="end">Code review</text></g>
+<path fill="#66dedb" stroke="#e2dbf3" stroke-width=".6" d="m528 72 8 8-8 8-8-8z"/>
+<text x="548" y="82" font-size="17" fill="#f0e8d6">Commits</text>
+<text x="836" y="82" font-size="17" text-anchor="end" fill="#f0e8d6">72%</text>
+<text x="836" y="100" font-size="12" text-anchor="end" fill="#9aa7bd">391</text>
+<path fill="#101528" d="M548 90h250v5H548z"/><path fill="#66dedb" d="M548 90h250v5H548z"/>
+<path fill="#b49ae9" stroke="#e2dbf3" stroke-width=".6" d="m528 108 8 8-8 8-8-8z"/>
+<text x="548" y="118" font-size="17" fill="#f0e8d6">Pull requests</text>
+<text x="836" y="118" font-size="17" text-anchor="end" fill="#f0e8d6">25%</text>
+<text x="836" y="136" font-size="12" text-anchor="end" fill="#9aa7bd">139</text>
+<path fill="#101528" d="M548 126h250v5H548z"/><path fill="#b49ae9" d="M548 126h89v5H548z"/>
+<path fill="#f1c580" stroke="#e2dbf3" stroke-width=".6" d="m528 144 8 8-8 8-8-8z"/>
+<text x="548" y="154" font-size="17" fill="#f0e8d6">Issues</text>
+<text x="836" y="154" font-size="17" text-anchor="end" fill="#f0e8d6">3%</text>
+<text x="836" y="172" font-size="12" text-anchor="end" fill="#9aa7bd">16</text>
+<path fill="#101528" d="M548 162h250v5H548z"/><path fill="#f1c580" d="M548 162h10v5H548z"/>
+<path fill="#8b87af" stroke="#e2dbf3" stroke-width=".6" d="m528 180 8 8-8 8-8-8z"/>
+<text x="548" y="190" font-size="17" fill="#f0e8d6">Code review</text>
+<text x="836" y="190" font-size="17" text-anchor="end" fill="#f0e8d6">0%</text>
+<text x="836" y="208" font-size="12" text-anchor="end" fill="#9aa7bd">0</text>
+<path fill="#101528" d="M548 198h250v5H548z"/>
+</svg>

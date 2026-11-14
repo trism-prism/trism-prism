@@ -5,7 +5,7 @@ export const root = fileURLToPath(new URL('../', import.meta.url));
 export const featured = [
   { name: 'Internship Scout', repo: 'internship-scout-agent', stack: 'Python · FastAPI · PostgreSQL · Claude tool calling · GitHub Actions', text: 'A resume-matching agent with a FastAPI web app. A scheduled Python job gathers internship postings, uses tool calling to retrieve details and explain matches, and sends an email digest. PostgreSQL stores the postings and results so the app can show them later.' },
   { name: 'Tripwire', repo: 'tripwire-awareness-dashboard', stack: 'Python · Streamlit · PostgreSQL · Docker · GDELT', text: 'A situational awareness dashboard backed by a Dockerized ingestion worker. It reads the GDELT event feed, stores geolocated conflict and unrest reports in PostgreSQL, and detects unusual changes in activity by country. A Streamlit interface makes the events easier to explore on a map.' },
-  { name: 'Docs QA Copilot', repo: 'docs-qa-copilot', stack: 'TypeScript · Next.js · React · PostgreSQL / pgvector · Local embeddings · Claude', text: 'A retrieval-augmented generation (RAG) application for asking questions about PDFs. Local embeddings and pgvector find relevant passages, and the app generates answers with page-level citations. An evaluation view shows how it handles test questions and where it falls short.' },
+  { name: 'Lighting Engine', repo: '2d-visibility-engine', stack: 'C++20 · GLFW · Dear ImGui · CMake', text: 'Exact hard shadows for a point light among line-segment walls. A plain method that checks every wall and a faster grid-based one give identical results, and an interactive demo lets you drag the light, draw walls and watch how much work each method does.' },
 ];
 
 export const escapeHtml = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
@@ -23,7 +23,9 @@ export function plaque(label, width = 400) {
 </svg>\n`;
 }
 
-export function renderReadme(latest = '<p>Latest public projects will appear here after the first successful refresh.</p>') {
+const tags = stack => stack.split(' · ').map(t => `<code>${escapeHtml(t).replaceAll(' ', '&nbsp;')}</code>`).join(' ');
+
+export function renderReadme(latest = '<p>Latest public projects will appear here after the first successful refresh.</p>', activity = '<p>Contribution mix will appear here after the first successful refresh.</p>') {
   return `<!-- Built by scripts/build.mjs. Edit the generator, then rebuild. -->
 <picture>
   <source media="(prefers-reduced-motion: reduce)" srcset="assets/scene.png">
@@ -31,7 +33,7 @@ export function renderReadme(latest = '<p>Latest public projects will appear her
 </picture>
 
 <p>
-  <a href="https://portfolio-site-trism2.vercel.app"><img src="assets/profile.svg" width="50%" alt="Portfolio Website"></a><a href="https://github.com/trism-prism?tab=repositories"><img src="assets/projects.svg" width="50%" alt="Repositories"></a>
+  <a href="https://portfolio-site-trism2.vercel.app"><img src="assets/profile.svg" width="25%" alt="Portfolio"></a><a href="https://github.com/trism-prism?tab=repositories"><img src="assets/projects.svg" width="25%" alt="Repositories"></a><a href="https://www.linkedin.com/in/tristan-morton"><img src="assets/linkedin.svg" width="25%" alt="LinkedIn"></a><a href="https://discord.com/users/543220135260061720"><img src="assets/discord.svg" width="25%" alt="Discord"></a>
 </p>
 
 <!-- Introduction — Tristan will write this. -->
@@ -44,20 +46,25 @@ ${latest}
 
 ## Featured projects
 
-${featured.map((p, i) => `<h3><a href="https://github.com/trism-prism/${p.repo}"><img src="assets/featured-${p.repo}.svg" width="330" alt="${p.name}"></a></h3>
-<details${i === 0 ? ' open' : ''}>
-<summary>Project details</summary>
+<table>
+${featured.map(p => `<tr>
+<td width="38%" valign="top"><a href="https://github.com/trism-prism/${p.repo}"><img src="assets/featured-${p.repo}.svg" width="100%" alt="${p.name}"></a><br>${tags(p.stack)}</td>
+<td valign="top">${escapeHtml(p.text)}<br><a href="https://github.com/trism-prism/${p.repo}">View repository →</a></td>
+</tr>`).join('\n')}
+</table>
 
-**${p.stack}**
+## Activity
 
-${p.text}
-
-[View repository →](https://github.com/trism-prism/${p.repo})
-
-</details>`).join('\n\n')}
-
-<!-- Optional personal text — Tristan may write this or remove it. -->
+<!-- activity:start -->
+${activity}
+<!-- activity:end -->
 `;
+}
+
+export function activitySection(readme) {
+  const match = readme.match(/<!-- activity:start -->\n([\s\S]*?)\n<!-- activity:end -->/);
+  if (!match || (readme.match(/<!-- activity:start -->/g) || []).length !== 1 || (readme.match(/<!-- activity:end -->/g) || []).length !== 1) throw new Error('Expected exactly one Activity section');
+  return match[1];
 }
 
 export function latestSection(readme) {
@@ -66,12 +73,14 @@ export function latestSection(readme) {
   return match[1];
 }
 
-export function build(latest = existsSync(root + 'README.md') ? latestSection(readFileSync(root + 'README.md', 'utf8').replaceAll('\r\n', '\n')) : undefined) {
+export function build(latest, activity) {
+  const current = existsSync(root + 'README.md') ? readFileSync(root + 'README.md', 'utf8').replaceAll('\r\n', '\n') : undefined;
+  if (current && /<!-- latest:start -->/.test(current)) latest ??= latestSection(current);
+  if (current && /<!-- activity:start -->/.test(current)) activity ??= activitySection(current);
   mkdirSync(root + 'assets', { recursive: true });
-  writeFileSync(root + 'assets/profile.svg', plaque('Portfolio Website'));
-  writeFileSync(root + 'assets/projects.svg', plaque('Repositories'));
+  for (const [file, label] of [['profile', 'Portfolio'], ['projects', 'Repositories'], ['linkedin', 'LinkedIn'], ['discord', 'Discord']]) writeFileSync(root + `assets/${file}.svg`, plaque(label, 220));
   for (const project of featured) writeFileSync(root + `assets/featured-${project.repo}.svg`, plaque(project.name));
-  writeFileSync(root + 'README.md', renderReadme(latest));
+  writeFileSync(root + 'README.md', renderReadme(latest, activity));
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

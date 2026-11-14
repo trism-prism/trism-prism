@@ -49,12 +49,12 @@ jobs:
       - name: Commit changed generated content
         shell: bash
         run: |
-          if git diff --quiet -- README.md assets/latest-*.svg; then
+          if git diff --quiet -- README.md assets/latest-*.svg assets/activity.svg; then
             echo 'No public project changes.'
             exit 0
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -- README.md assets/latest-*.svg
+          git add -- README.md assets/latest-*.svg assets/activity.svg
           git commit -m 'chore: refresh latest public projects'
           git push origin HEAD:main

@@ -1,19 +1,21 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { renderReadme, featured, root, latestSection, plaque } from '../scripts/build.mjs';
+import { renderReadme, featured, root, latestSection, activitySection, plaque } from '../scripts/build.mjs';
 import { readFileSync, statSync } from 'node:fs';
 
 test('native README keeps readable content and supported motion fallback', () => {
   const readme = readFileSync(root + 'README.md', 'utf8').replaceAll('\r\n', '\n');
-  const output = renderReadme(latestSection(readme));
+  const output = renderReadme(latestSection(readme), activitySection(readme));
   assert(output.includes('alt="Tristan Morton.'));
   assert(!output.includes('# Tristan Morton'));
   assert(!output.includes('[trism-dev]'));
   assert(output.indexOf('## Latest projects') < output.indexOf('## Featured projects'));
+  assert(output.indexOf('## Featured projects') < output.indexOf('## Activity'));
   assert(output.includes('(prefers-reduced-motion: reduce)'));
-  assert.equal((output.match(/<details/g) || []).length, 3);
+  assert.equal((output.match(/<tr>/g) || []).length, 3);
+  assert(!output.includes('<details'));
   for (const p of featured) {
-    assert(output.includes(p.text));
+    assert(output.includes(p.text.replaceAll("'", '&#39;')));
     assert(output.includes(`https://github.com/trism-prism/${p.repo}`));
   }
   assert(!/<script|<style|<canvas|2027|internship availability|Matter:/.test(output));
@@ -23,7 +25,9 @@ test('native README keeps readable content and supported motion fallback', () =>
 test('navigation uses portfolio/repositories and every featured project has a plaque', () => {
   const output = renderReadme();
   assert(output.includes('href="https://portfolio-site-trism2.vercel.app"'));
-  assert(output.includes('alt="Portfolio Website"'));
+  assert(output.includes('alt="Portfolio"'));
+  assert(output.includes('href="https://www.linkedin.com/in/tristan-morton"'));
+  assert(output.includes('alt="Discord"'));
   assert(output.includes('alt="Repositories"'));
   for (const project of featured) {
     assert(output.includes(`assets/featured-${project.repo}.svg`));
@@ -42,13 +46,14 @@ test('shared prism plaques retain accessible names, safe labels and fixed geomet
   assert(renderReadme().includes('Prism Spellblade rests with a steaming mug'));
 });
 
-test('project plaques align outside native disclosure markers and navigation fills its row', () => {
+test('navigation fills its row, latest projects share a row, featured projects are table rows with tags', () => {
   const output = renderReadme();
-  assert.equal((output.match(/width="50%"/g) || []).length, 2);
+  assert.equal((output.match(/width="25%"/g) || []).length, 4);
   assert(!output.includes('</a>\n  <a'));
-  assert([...output.matchAll(/<summary>(.*?)<\/summary>/gs)].every(match => !match[1].includes('<img')));
+  assert(!output.includes('<summary>'));
   for (const project of featured) {
-    assert(output.includes(`<a href="https://github.com/trism-prism/${project.repo}"><img src="assets/featured-${project.repo}.svg" width="330"`));
+    assert(output.includes(`<a href="https://github.com/trism-prism/${project.repo}"><img src="assets/featured-${project.repo}.svg" width="100%"`));
+    for (const tag of project.stack.split(' · ')) assert(output.includes(`<code>${tag.replaceAll(' ', '&nbsp;')}</code>`));
   }
 });
 
