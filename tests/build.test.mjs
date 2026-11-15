@@ -8,7 +8,7 @@ test('native README keeps readable content and supported motion fallback', () =>
   const output = renderReadme(latestSection(readme), activitySection(readme));
   assert(output.includes('alt="Tristan Morton.'));
   assert(!output.includes('# Tristan Morton'));
-  assert(!output.includes('[trism-dev]'));
+  assert(!output.includes('[trism-prism]'));
   assert(output.indexOf('## Latest projects') < output.indexOf('## Featured projects'));
   assert(output.indexOf('## Featured projects') < output.indexOf('## Activity'));
   assert(output.includes('(prefers-reduced-motion: reduce)'));

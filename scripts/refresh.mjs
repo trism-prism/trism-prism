@@ -4,7 +4,7 @@ import { activitySection, escapeHtml, latestSection, plaque, root } from './buil
 import { fetchActivity, renderActivity, renderActivitySection } from './activity.mjs';
 
 const owner = 'trism-prism';
-const excluded = new Set(['trism-prism', 'trism-dev', 'lore-tool-pages']);
+const excluded = new Set(['trism-prism', 'lore-tool-pages']);
 
 export async function fetchPublicRepos(fetcher = fetch) {
   const repos = [];
