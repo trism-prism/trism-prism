@@ -13,7 +13,7 @@
 ## Latest projects
 
 <!-- latest:start -->
-<p><a href="https://github.com/trism-prism/kiln"><img src="assets/latest-1.svg" width="33%" alt="kiln"></a><a href="https://github.com/trism-prism/anime-rating-platform"><img src="assets/latest-2.svg" width="33%" alt="anime-rating-platform"></a><a href="https://github.com/trism-prism/docs-qa-copilot"><img src="assets/latest-3.svg" width="33%" alt="docs-qa-copilot"></a></p>
+<p><a href="https://github.com/trism-prism/anime-rating-platform"><img src="assets/latest-1.svg" width="33%" alt="anime-rating-platform"></a><a href="https://github.com/trism-prism/docs-qa-copilot"><img src="assets/latest-2.svg" width="33%" alt="docs-qa-copilot"></a><a href="https://github.com/trism-prism/internship-scout-agent"><img src="assets/latest-3.svg" width="33%" alt="internship-scout-agent"></a></p>
 <!-- latest:end -->
 
 ## Featured projects
