@@ -13,7 +13,7 @@
 ## Latest projects
 
 <!-- latest:start -->
-<p><a href="https://github.com/trism-prism/anime-rating-platform"><img src="assets/latest-1.svg" width="33%" alt="anime-rating-platform"></a><a href="https://github.com/trism-prism/docs-qa-copilot"><img src="assets/latest-2.svg" width="33%" alt="docs-qa-copilot"></a><a href="https://github.com/trism-prism/internship-scout-agent"><img src="assets/latest-3.svg" width="33%" alt="internship-scout-agent"></a></p>
+<p><a href="https://github.com/trism-prism/minivmm"><img src="assets/latest-1.svg" width="33%" alt="minivmm"></a><a href="https://github.com/trism-prism/anime-rating-platform"><img src="assets/latest-2.svg" width="33%" alt="anime-rating-platform"></a><a href="https://github.com/trism-prism/docs-qa-copilot"><img src="assets/latest-3.svg" width="33%" alt="docs-qa-copilot"></a></p>
 <!-- latest:end -->
 
 ## Featured projects
@@ -36,5 +36,5 @@
 ## Activity
 
 <!-- activity:start -->
-<p><img src="assets/activity.svg" width="100%" alt="Contribution mix over the last 12 months: 870 commits (85%), 137 pull requests (13%), 16 issues (2%), 0 code review (0%)."></p>
+<p><img src="assets/activity.svg" width="100%" alt="Contribution mix over the last 12 months: 889 commits (85%), 137 pull requests (13%), 16 issues (2%), 0 code review (0%)."></p>
 <!-- activity:end -->
