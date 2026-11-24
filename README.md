@@ -36,5 +36,5 @@
 ## Activity
 
 <!-- activity:start -->
-<p><img src="assets/activity.svg" width="100%" alt="Contribution mix over the last 12 months: 904 commits (85%), 142 pull requests (13%), 16 issues (2%), 0 code review (0%)."></p>
+<p><img src="assets/activity.svg" width="100%" alt="Contribution mix over the last 12 months: 904 commits (85%), 144 pull requests (14%), 16 issues (1%), 0 code review (0%)."></p>
 <!-- activity:end -->
